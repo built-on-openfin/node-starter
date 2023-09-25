@@ -1,6 +1,9 @@
 ![OpenFin Node Adapter Example -- How To Use A SideCar App](../../assets/OpenFin-Starter.png)
 
 > **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
+
+## Please Note
+
 > **_:warning: App Asset & Launch External Process:_** Using app assets and launch external process is a trade off and it is important to balance the pros and the cons. The pro is that an app asset can be used to provide enhanced capabilities to your application. The cons to consider is that it will make your deployments harder. OpenFin has a very streamlined deployment process that makes deploying and upgrading easy. When you introduce an app asset you do have the ability to download and update your app asset but your client needs to be happy with allowing zips containing a binary to be downloaded and to permission the APIs download app asset and launch external process.
 
 ## Learning more about App Assets & Launch External Process

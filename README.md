@@ -6,6 +6,6 @@
 
 The OpenFin Node Adapter allows the use of the OpenFin API from node.js. Please note that the launch and connect methods are specific to a node environment. This repo contains examples of how you can use the OpenFin Node Adapter.
 
-| Documentation                                                  | Description                                                                                                                                                               |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Documentation                                                  | Description                                                                             |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | [Use a SideCar App - Basic](./how-to/use-a-sidecar-app-basic/) | This example shows you how you can launch a node app as an app asset and connect to it. |
