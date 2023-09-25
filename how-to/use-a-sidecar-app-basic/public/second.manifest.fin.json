@@ -1,0 +1,49 @@
+{
+	"devtools_port": 9090,
+	"licenseKey": "openfin-demo-license-key",
+	"runtime": {
+		"arguments": "--v=1 --inspect",
+		"version": "33.116.77.8"
+	},
+	"platform": {
+		"uuid": "node-sidecar-platform-appasset",
+		"icon": "http://localhost:6060/favicon.ico",
+		"autoShow": true,
+		"providerUrl": "http://localhost:6060/platform/provider.html",
+		"preventQuitOnLastWindowClosed": true,
+		"defaultWindowOptions": {},
+		"defaultHeight": 700,
+		"permissions": {
+			"System": {
+				"launchExternalProcess": true,
+				"terminateExternalProcess": true,
+				"downloadAsset": true
+			}
+		}
+	},
+	"snapshot": {
+		"windows": []
+	},
+	"appAssets": [
+		{
+			"src": "http://localhost:6060/assets/sidecar-app.zip",
+			"version": "1.0.2",
+			"alias": "sidecar-app",
+			"target": "SideCar.App.exe",
+			"mandatory": true
+		}
+	],
+	"shortcut": {
+		"company": "OpenFin",
+		"description": "A way of showing how an app can use a proxy app to work with a native sidecar where an app asset is automatically fetched.",
+		"icon": "http://localhost:6060/favicon.ico",
+		"name": "Node Sidecar App Platform - Basic - App Asset",
+		"target": ["desktop"]
+	},
+	"supportInformation": {
+		"company": "OpenFin",
+		"product": "OpenFin Node Sidecar App Platform - Basic - App Asset",
+		"email": "support@openfin.co",
+		"forwardErrorReports": true
+	}
+}
