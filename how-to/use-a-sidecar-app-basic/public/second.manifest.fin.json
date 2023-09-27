@@ -27,10 +27,9 @@
 	"appAssets": [
 		{
 			"src": "http://localhost:6060/assets/sidecar-app.zip",
-			"version": "1.0.2",
+			"version": "1.1.0",
 			"alias": "sidecar-app",
-			"target": "SideCar.App.exe",
-			"mandatory": true
+			"target": "node-sidecar-basic.exe"
 		}
 	],
 	"shortcut": {

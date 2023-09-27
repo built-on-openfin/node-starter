@@ -8,6 +8,7 @@
 		"kill": "node ./scripts/kill.mjs",
 		"start": "npx --yes http-server ./public -p 6060 -c-1",
 		"client": "node ./scripts/launch.mjs",
+		"secondclient": "node ./scripts/launch.mjs http://localhost:6060/second.manifest.fin.json",
 		"server": "node ./server/build/index.js",
 		"build-client": "webpack build --config ./client/webpack.config.js --mode=development",
 		"build-server": "tsc --project ./server",

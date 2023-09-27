@@ -114,3 +114,5 @@ To go through the flow you can run client (step 5 above).
 You can then use the Platform UI to trigger the following flow:
 
 ![SideCar Platform App Flow](./use-a-sidecar-app-basic-example.gif)
+
+> **_:warning: A Note about Node:_** Node 17 changed their behavior and "localhost" favours IPv6 when it used to favour IPv4. This would cause your node-adapter connection to fail. Node 20+ has been updated and this is no longer and issue. Our example runs some code to set the preference to IPv4 in the [provider.ts](./server/src/index.ts) file. If you are using node 20 and above or 16 or below then this try/catch logic can be removed if you want. More information can be found [here](https://github.com/nodejs/node/issues/40537).

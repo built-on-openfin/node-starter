@@ -1,5 +1,6 @@
 import type OpenFin from "@openfin/node-adapter";
 import { connect } from "@openfin/node-adapter";
+import { setDefaultResultOrder } from "dns";
 
 const SIDECAR_UUID = "node-sidecar-app";
 const SIDECAR_CHANNEL_NAME = "node-sidecar-app";
@@ -62,6 +63,16 @@ async function init(): Promise<void> {
 		);
 		return `echo: ${payload}`;
 	});
+}
+
+try {
+	setDefaultResultOrder("ipv4first");
+} catch {
+	// Early versions of node do not support this method, but those earlier versions
+	// also do not have the same issue with interface ordering, so it doesn't matter
+	// that it hasn't been called. This is handling a switch introduced in node 17 which
+	// is being resolved in later versions of node (e.g. 20.7.0 has been tested).
+	// If you are below 17 or at or above v20 of node then this block is not needed.
 }
 
 init()

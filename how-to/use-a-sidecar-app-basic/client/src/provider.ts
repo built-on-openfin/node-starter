@@ -191,12 +191,24 @@ async function fetchSideCarAppIfNeeded(): Promise<void> {
  */
 async function fetchSideCarApp(): Promise<void> {
 	try {
-		const appAsset: OpenFin.AppAssetInfo & { force?: boolean } = {
+		const appAsset: OpenFin.AppAssetInfo & {
+			/**
+			 * This setting should not be used in production as it will force
+			 * the app asset to be fetched every single time.
+			 * It is demonstrated here as the sample focuses on the app asset being
+			 * built so you would want to ensure you have the latest copy each time.
+			 * The second.manifest.fin.json (you can launch by running npm run secondclient)
+			 * example does not specify forceDownload so you can see that it fetches a
+			 * new version of the asset only when you change the version setting of the
+			 * app asset.
+			 */
+			forceDownload?: boolean;
+		} = {
 			src: SIDECAR_APP_SRC,
 			alias: SIDECAR_APP_ALIAS,
 			version: "1.0.4",
 			target: SIDECAR_APP_TARGET,
-			force: true
+			forceDownload: true
 		};
 
 		loggingAddEntry("Fetching SideCar App through fin.System.downloadAsset.");
