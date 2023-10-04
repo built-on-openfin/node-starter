@@ -51,7 +51,7 @@ The node app is started when npm run server is run.
 
    - **Note**. Please remember to repeat steps 1 though 3 each time you modify the code.
 
-5. Run
+4. Run
 
    ```bash
    npm run start
@@ -59,7 +59,7 @@ The node app is started when npm run server is run.
 
    to start the generic http server that will serve static files.
 
-6. Open a new Terminal / Command Window in the same sub-folder as step 1. Run
+5. Open a new Terminal / Command Window in the same sub-folder as step 1. Run
 
    ```bash
    npm run client
@@ -67,7 +67,7 @@ The node app is started when npm run server is run.
 
    to run the client component.
 
-7. Open a new Terminal / Command Window in the same sub-folder as step 1. Run
+6. Open a new Terminal / Command Window in the same sub-folder as step 1. Run
 
    ```bash
    npm run server

@@ -129,25 +129,21 @@ async function createChannelClientAndRegisterListeners(): Promise<void> {
 async function dispatchMessageToNodeApp(): Promise<void> {
 	try {
 		const context = {
-			"type": "fdc3.instrument",
-			"name": "Apple",
-			"id": {
-				"ticker": "AAPL"
+			type: "fdc3.instrument",
+			name: "Apple",
+			id: {
+				ticker: "AAPL"
 			}
 		};
 		if (channelClient !== undefined) {
 			loggingAddEntry("Sending User Channel Context Message to Node App.");
-			const response = await channelClient.dispatch(
-				NODE_CHANNEL_SEND_CONTEXT_USERCHANNEL,
-				context
-			);
+			const response = await channelClient.dispatch(NODE_CHANNEL_SEND_CONTEXT_USERCHANNEL, context);
 			loggingAddEntry(`Message sent to Node App User Channel function and response received: ${response}.`);
 			loggingAddEntry("Sending App Channel Context Message to Node App.");
-			const appChannelResponse = await channelClient.dispatch(
-				NODE_CHANNEL_SEND_CONTEXT_APPCHANNEL,
-				context
+			const appChannelResponse = await channelClient.dispatch(NODE_CHANNEL_SEND_CONTEXT_APPCHANNEL, context);
+			loggingAddEntry(
+				`Message sent to Node App Channel function and response received: ${appChannelResponse}.`
 			);
-			loggingAddEntry(`Message sent to Node App Channel function and response received: ${appChannelResponse}.`);
 		} else {
 			loggingAddEntry(
 				"Unable to sending message to Node App as the platform is not currently connected to it."

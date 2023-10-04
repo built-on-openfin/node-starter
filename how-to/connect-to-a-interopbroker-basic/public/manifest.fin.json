@@ -13,8 +13,7 @@
 		"preventQuitOnLastWindowClosed": true,
 		"defaultWindowOptions": {},
 		"defaultHeight": 700,
-		"permissions": {
-		}
+		"permissions": {}
 	},
 	"snapshot": {
 		"windows": []

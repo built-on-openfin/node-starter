@@ -32,7 +32,7 @@ async function init(): Promise<void> {
 		if (payload !== undefined) {
 			console.log("Client Payload:", payload);
 		}
-		if(interopClient === undefined) {
+		if (interopClient === undefined) {
 			console.log(`Connecting to interop broker on platform: ${platformUUID}`);
 			interopClient = fin.Interop.connectSync("node-platform-interopbroker");
 			console.log(`Connected to interop broker on platform: ${platformUUID}`);
@@ -62,7 +62,8 @@ async function init(): Promise<void> {
 
 	provider.register(NODE_CHANNEL_SEND_CONTEXT_APPCHANNEL, async (payload, identity) => {
 		console.log(
-			`Message received on Node App from connected client with uuid: ${identity.uuid}. Sending context to app channel.`, payload
+			`Message received on Node App from connected client with uuid: ${identity.uuid}. Sending context to app channel.`,
+			payload
 		);
 		await appChannel.setContext(payload as OpenFin.Context);
 		return "Done";
@@ -70,7 +71,8 @@ async function init(): Promise<void> {
 
 	provider.register(NODE_CHANNEL_SEND_CONTEXT_USERCHANNEL, async (payload, identity) => {
 		console.log(
-			`Message received on Node App from connected client with uuid: ${identity.uuid}. Sending context to user channel.`, payload
+			`Message received on Node App from connected client with uuid: ${identity.uuid}. Sending context to user channel.`,
+			payload
 		);
 		await interopClient.setContext(payload as OpenFin.Context);
 		return "Done";
