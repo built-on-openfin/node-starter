@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Node App Platform</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/style/app.css" />
+		<script src="../js/provider.bundle.js"></script>
+	</head>
+
+	<body class="col fill gap20">
+		<p>
+			Please ensure you have run the server using
+			<b>npm run server</b>
+			before trying to connect to the node app.
+		</p>
+		<div class="col gap5" id="logging-container">
+			<h2>Logging</h2>
+			<pre id="logging" class="scroll"></pre>
+		</div>
+	</body>
+	<footer>
+		<button id="btnConnectToNodeApp">Connect To Node App</button>
+		<button id="btnDispatchMessageToNodeApp" disabled>Dispatch Message To Node App</button>
+		<button id="btnLaunchFDC3Window">Launch FDC3 Context App</button>
+		<button id="btnClear">Clear Logs</button>
+	</footer>
+</html>

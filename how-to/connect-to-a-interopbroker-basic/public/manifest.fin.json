@@ -1,0 +1,34 @@
+{
+	"devtools_port": 9090,
+	"licenseKey": "openfin-demo-license-key",
+	"runtime": {
+		"arguments": "--v=1 --inspect",
+		"version": "33.116.77.8"
+	},
+	"platform": {
+		"uuid": "node-platform-interopbroker",
+		"icon": "http://localhost:6060/favicon.ico",
+		"autoShow": true,
+		"providerUrl": "http://localhost:6060/platform/provider.html",
+		"preventQuitOnLastWindowClosed": true,
+		"defaultWindowOptions": {},
+		"defaultHeight": 700,
+		"permissions": {}
+	},
+	"snapshot": {
+		"windows": []
+	},
+	"shortcut": {
+		"company": "OpenFin",
+		"description": "A way of showing how node can connect and communicate with the interop broker of a platform.",
+		"icon": "http://localhost:6060/favicon.ico",
+		"name": "Node - InteropBroker Platform - Basic",
+		"target": ["desktop"]
+	},
+	"supportInformation": {
+		"company": "OpenFin",
+		"product": "OpenFin Node InteropBroker Platform - Basic",
+		"email": "support@openfin.co",
+		"forwardErrorReports": true
+	}
+}

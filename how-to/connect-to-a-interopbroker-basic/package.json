@@ -1,0 +1,29 @@
+{
+	"name": "connect-to-a-interopbroker-basic",
+	"version": "1.0.0",
+	"description": "OpenFin Node Adapter -- Connect to an interop broker basic",
+	"main": "./server/build/index.js",
+	"bin": "./server/build/index.js",
+	"scripts": {
+		"kill": "node ./scripts/kill.mjs",
+		"start": "npx --yes http-server ./public -p 6060 -c-1",
+		"client": "node ./scripts/launch.mjs",
+		"server": "node ./server/build/index.js",
+		"build-client": "webpack build --config ./client/webpack.config.js --mode=development",
+		"build-server": "tsc --project ./server",
+		"build": "npm run build-server && npm run build-client",
+		"setup": "npm install && npm run build"
+	},
+	"author": "john.mandia@openfin.co",
+	"license": "SEE LICENSE IN LICENSE.MD",
+	"dependencies": {
+		"@openfin/node-adapter": "33.77.8"
+	},
+	"devDependencies": {
+		"@openfin/core": "33.77.8",
+		"ts-loader": "^9.4.4",
+		"typescript": "^5.2.2",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4"
+	}
+}
