@@ -6,7 +6,8 @@
 
 The OpenFin Node Adapter allows the use of the OpenFin API from node.js. Please note that the launch and connect methods are specific to a node environment. This repo contains examples of how you can use the OpenFin Node Adapter.
 
-| Documentation                                                                    | Description                                                                                         |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [Use a SideCar App - Basic](./how-to/use-a-sidecar-app-basic/)                   | This example shows you how you can launch a node app as an app asset and connect to it.             |
+| Documentation                                                | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Use a SideCar App - Basic](./how-to/use-a-sidecar-app-basic/) | This example shows you how you can launch a node app as an app asset and connect to it. |
 | [Connect To A InteropBroker - Basic](./how-to/connect-to-a-interopbroker-basic/) | This example shows you how Node can connect to a Platform's InteropBroker through the node adapter. |
+| [Connect-To-Workspace-For-Interop](./how-to/connect-to-workspace-for-interop) | This example demonstrates how you can connect a node app to an interop broker running on a platform, which in this case is the WorkspacePlatformStarter example, and perform context and intent publishing and receiving. |
