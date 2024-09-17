@@ -1,0 +1,26 @@
+{
+	"name": "connect-to-workspace-for-interop",
+	"version": "1.0.0",
+	"description": "OpenFin Node Adapter -- Connect to a Workspace instance and perform interop",
+	"main": "./server/build/index.js",
+	"bin": "./server/build/index.js",
+	"scripts": {
+		"kill": "node ./scripts/kill.mjs",		
+		"server": "node ./server/build/index.js",		
+		"build-server": "tsc --project ./server",
+		"build": "npm run build-server",
+		"setup": "npm install && npm run build"
+	},
+	"author": "john.mandia@here.co, ameet.jayawant@here.io",
+	"license": "SEE LICENSE IN LICENSE.MD",
+	"dependencies": {
+		"@openfin/node-adapter": "33.77.8"
+	},
+	"devDependencies": {
+		"@openfin/core": "33.77.8",
+		"ts-loader": "^9.4.4",
+		"typescript": "^5.2.2",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4"
+	}
+}
