@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>WebSocket Simulator</title>
+		<script type="module" src="./index.js"></script>
+		<link rel="stylesheet" href="/app.css" />
+	</head>
+
+	<body class="col fill gap20">
+		<header class="row spread middle">
+			<div class="col">
+				<h1>
+					WebSocket Simulator
+				</h1>
+				<h1 class="tag">A very simple server that lets you send messages to broadcast.</h1>
+			</div>
+			<div class="row middle gap10">
+				<image src="/icon-blue.png" alt="OpenFin" height="40px"></image>
+			</div>
+		</header>
+		<main class="row fill gap20">
+			<div class="row fill gap40">
+				<div class="fill col gap20">
+					<form class="col gap40 scroll-vertical">
+						<div class="form-section col gap10">
+							<h2>WebSocket Settings</h2>
+							<fieldset>
+								<label
+									for="messageType"
+									title="What type of message do you want to send."
+								>
+									Message Type
+								</label>
+								<select name="messageType" id="messageType">
+									<option value="notificationType">Workspace Platform Starter Notification</option>
+									<option value="custom">Custom</option>
+								</select>
+							</fieldset>
+							<fieldset id="notificationMessages">
+								<label
+									for="notificationTypeExamples"
+									title="Sample messages."
+								>
+									Example Messages
+								</label>
+								<select name="notificationTypeExamples" id="notificationTypeExamples">
+									<option value="notificationLaunchApp">Launch App</option>
+									<option value="notificationLaunchContent">Launch Content</option>
+                                    <option value="notificationRaiseIntent">Raise Intent</option>
+                                    <option value="notificationBroadcastUser">Broadcast User Channel</option>
+									<option value="notificationBroadcastFormUser">Broadcast Form on User Channel</option>
+                                    <option value="notificationBroadcastAppChannel">Broadcast App Channel</option>
+                                    <option value="notificationActionEndpoint">Action Endpoint</option>
+									<option value="notificationUpdate">Notification Update</option>
+									<option value="notificationClear">Notification Clear</option>
+								</select>
+							</fieldset>
+							<fieldset>
+								<label
+									for="message"
+									title="The message to send to the server for distribution via the WebSocket"
+								>
+									Message To Send
+								</label>
+								<textarea id="message" rows="30" class="full"></textarea>
+							</fieldset>
+						</div>
+					</form>
+				</div>
+				<div class="col fill gap20">
+					<h2>Logs</h2>
+					<pre id="log" class="fill scroll-vertical"></pre>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div class="row spread">
+				<div class="row gap10">
+					<button id="btnPost">Post to Server</button>
+					<button id="btnClear">Clear Logs</button>
+				</div>
+				<div class="row gap10">
+					<a href="https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter" target="_blank">
+						Workspace Platform Starter
+					</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
