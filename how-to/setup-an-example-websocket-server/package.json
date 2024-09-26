@@ -1,0 +1,27 @@
+{
+	"name": "setup-an-example-websocket-server",
+	"version": "1.0.0",
+	"description": "A very basic websocket server with a form to post to the server",
+	"main": "./server/build/index.js",
+	"bin": "./server/build/index.js",
+	"scripts": {
+		"start": "npm run server",
+		"server": "node ./server/build/index.js",
+		"build-server": "tsc --project ./server",
+		"build": "npm run build-server",
+		"setup": "npm install && npm run build"
+	},
+	"author": "john.mandia@openfin.co",
+	"license": "SEE LICENSE IN LICENSE.MD",
+	"dependencies": {
+		"body-parser": "^1.20.3",
+		"express": "^4.21.0",
+		"ws": "^8.18.0"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/node": "^22.6.1",
+		"@types/ws": "^8.5.12",
+		"typescript": "^5.6.2"
+	}
+}
