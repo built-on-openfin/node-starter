@@ -1,263 +1,39 @@
 
 // notification messages
-const sampleMessages = {};
-
-// launch app notification
-sampleMessages["notificationLaunchApp"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Example Launches App",
-            "body": "Click the button to launch an app.",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "launch-app",
-                        "customData": {
-                            "id": "call-app"
-                        }
-                    },
-                    "cta": true,
-                    "title": "Open Call App",
-                    "type": "button"
-                }
-            ]
-    }
-};
-
-// launch content notification
-sampleMessages["notificationLaunchContent"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Example Launches Page",
-            "body": "Click the button to launch or focus on a specific page.",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "launch-content",
-                        "customData": {
-                            "id": "page-id"
-                        }
-                    },
-                    "cta": true,
-                    "title": "Launch Page",
-                    "type": "button"
-                }
-            ]
-    }
-};
-
-// raise intent notification
-sampleMessages["notificationRaiseIntent"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Example Raise Intent Notification",
-            "body": "Click the button to raise an intent",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "raise-intent",
-                        "customData": {
-                            "id": "StartCall",
-                            "context": {
-                                "type": "fdc3.contact",
-                                "name": "John Example",
-                                "id": {
-                                    "email": "john@example.com",
-                                    "phone": "Number goes here"
-                                }
-                            },
-                            "target": {
-                                "appId": "call-app",
-                                "instanceId": "instanceId if available"
-                            }
-                        }
-                    },
-                    "cta": true,
-                    "title": "Start A Call",
-                    "type": "button"
-                }
-            ]
-        }
-};
-
-// broadcast user notification
-sampleMessages["notificationBroadcastUser"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Broadcast on User Channel",
-            "body": "Click the button to broadcast on a user channel.",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "broadcast",
-                        "customData": {
-                            "id": "green",
-                            "context": {
-                                "type": "fdc3.contact",
-                                "name": "John Example",
-                                "id": {
-                                    "email": "john@example.com",
-                                    "phone": "Number goes here"
-                                }
-                            },
-                            "broadcastOptions": {
-                                "isUserChannel": true
-                            }
-                        }
-                    },
-                    "cta": true,
-                    "title": "Broadcast On User Channel",
-                    "type": "button"
-                }
-            ]
-        }
-};
-
-// broadcast form user notification
-sampleMessages["notificationBroadcastFormUser"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Broadcast Form on User Channel",
-            "body": "Click the button to broadcast on a user channel.",
-            "form": [
-                {
-                    "type": "boolean",
-                    "key": "intendedThemeChange",
-                    "label": "Did you intend to change the theme?",
-                    "widget": {
-                        "type": "Toggle"
-                    }
-                }
-            ],
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "broadcast",
-                        "customData": {
-                            "id": "green",
-                            "context": {
-                                "type": "custom.context",
-                                "name": "Form Submitted"
-                            },
-                            "broadcastOptions": {
-                                "isUserChannel": true
-                            }
-                        }
-                    },
-                    "cta": true,
-                    "submit": true,
-                    "title": "Broadcast On Green",
-                    "type": "button"
-                }
-            ]
-        }
-};
-
-// broadcast app notification
-sampleMessages["notificationBroadcastAppChannel"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Broadcast on App Channel",
-            "body": "Click the button to broadcast on an app channel.",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "broadcast",
-                        "customData": {
-                            "id": "custom-app-channel",
-                            "context": {
-                                "type": "fdc3.contact",
-                                "name": "John Example",
-                                "id": {
-                                    "email": "john@example.com",
-                                    "phone": "Number goes here"
-                                }
-                            }
-                        }
-                    },
-                    "cta": true,
-                    "title": "Broadcast On App Channel",
-                    "type": "button"
-                }
-            ]
-    }
-};
-
-// endpoint notification
-sampleMessages["notificationActionEndpoint"] = {
-    "eventId": "create",
-    "payload": {
-            "id": "guid-goes-here",
-            "title": "Trigger a post to a backend through a CTA",
-            "body": "Click the button to call an action on the specified endpoint.",
-            "buttons": [
-                {
-                    "onClick": {
-                        "task": "endpoint",
-                        "customData": {
-                            "id": "endpointId you wish to call. The notification service module must be permitted to access this endpoint through endpointClients",
-                            "context": {
-                                "type": "fdc3.contact",
-                                "name": "John Example",
-                                "id": {
-                                    "email": "john@example.com",
-                                    "phone": "Number goes here"
-                                }
-                            },
-                            "endpointOptions": {
-                                "request": {
-                                    "description": "If request is specified then context will be ignored and this object will be sent to the endpoint as the request"
-                                }
-                            }
-                        }
-                    },
-                    "cta": true,
-                    "title": "Send to Endpoint",
-                    "type": "button"
-                }
-            ]
-        }
-};
-
-// update notification
-sampleMessages["notificationUpdate"] = {
-    "eventId": "update",
-    "payload": {
-            "id": "id-of-notification-to-update",
-            "body": "notification has been updated and buttons have been removed.",
-            "template": "markdown"
-        }
-};
-
-// notification to clear
-sampleMessages["notificationClear"] = {
-    "eventId": "clear",
-    "payload": {
-            "id": "id-of-notification-to-clear"
-    }
-};
+let messages = [];
 
 /**
- * Add some logging.
+ * Set Message Content.
  * @param selectionElement The element to read the current selection.
  * @param messageElement The element to set text against.
  */
 function setMessageContent(selectionElement, messageElement) {
     const selectedExample = selectionElement.value;
     if (selectedExample) {
-        const sampleMessage = sampleMessages[selectedExample];
-        if (sampleMessage) {
-            if(sampleMessage.eventId === 'create') {
-                sampleMessage.payload.id = `${Date.now().toString()}-${Math.floor(Math.random() * 1000)}`;
+        const entry = messages.find(entry => entry.messageId === selectedExample);
+        if (entry) {
+            if (entry.message.eventId === 'create') {
+                entry.message.payload.id = `${Date.now().toString()}-${Math.floor(Math.random() * 1000)}`;
             }
-            messageElement.value = JSON.stringify(sampleMessage, null, 2);
+            messageElement.value = JSON.stringify(entry.message, null, 2);
         }
+    }
+}
+
+/**
+ * Fetch messages from messages.json
+ */
+async function fetchMessages() {
+    try {
+        const response = await fetch('./messages.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok when trying to get messages.json');
+        }
+        messages = await response.json();
+
+        console.log('messages populated:', messages);
+    } catch (error) {
+        console.error('Failed to fetch messages:', error);
     }
 }
 
@@ -318,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnPost !== null &&
         btnClear !== null) {
         // setup listeners
+        await fetchMessages();
         messageType.addEventListener('change', () => {
             const selectedType = messageType.value;
             if (selectedType === 'custom') {
@@ -328,6 +105,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setMessageContent(notificationTypeExamples, message);
             }
         });
+
+        for (const entry of messages) {
+            // Create a new option element
+            const option = document.createElement('option');
+            option.value = entry.messageId;
+            option.id = entry.messageId;
+            option.textContent = entry.title;
+
+            // Append the option to the select element
+            notificationTypeExamples.appendChild(option);
+        }
 
         notificationTypeExamples.addEventListener('change', () => {
             setMessageContent(notificationTypeExamples, message);
