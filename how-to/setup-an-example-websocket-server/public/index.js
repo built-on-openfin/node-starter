@@ -75,6 +75,22 @@ async function postMessage(message, logElement) {
     }
 }
 
+/**
+ * Get pending messages from the server
+ */
+async function getMessage(logElement) {
+    const response = await fetch('/api/messages', {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        return response.json();
+    } else {
+        return [];
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     // reference the controls
@@ -147,5 +163,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const message = JSON.parse(event.data);
             log(logPreview, 'Incoming websocket message', message);
         };
+
+        // Setup the long polling example for scenarios where websockets are not supported
+        const longPollingSecondsInterval = 5;
+        setInterval(async ()=> {
+            const messages = await getMessage(logPreview);
+            if (messages.length > 0) {
+                log(logPreview, `Messages received from server through long polling. Current interval in seconds: ${longPollingSecondsInterval}`, messages);
+            }
+        }, longPollingSecondsInterval * 1000);
     }
 });
