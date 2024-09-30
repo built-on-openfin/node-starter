@@ -62,6 +62,43 @@
         }
     },
     {
+        "messageId": "notificationLaunchCompositeAppWithContext",
+        "title": "Launch Composite (Snapshot) App With Context",
+        "message": {
+            "eventId": "create",
+            "payload": {
+                "id": "composite-guid-goes-here",
+                "title": "Example Launches Composite/Snapshot App",
+                "body": "Click the button to launch a composite/snapshot app and pass it context.",
+                "buttons": [
+                    {
+                        "onClick": {
+                            "task": "launch-app",
+                            "customData": {
+                                "id": "client-overview",
+                                "context": {
+                                    "type": "fdc3.contact",
+                                    "name": "John Example",
+                                    "id": {
+                                        "email": "john@example.com",
+                                        "phone": "Number goes here"
+                                    }
+                                },
+                                "target": {
+                                    "appId": "client-overview",
+                                    "instanceId": "instanceId if available"
+                                }
+                            }
+                        },
+                        "cta": true,
+                        "title": "Open Client Overview App",
+                        "type": "button"
+                    }
+                ]
+            }
+        }
+    },
+    {
         "messageId": "notificationLaunchContent",
         "title": "Launch Content",
         "message": {
