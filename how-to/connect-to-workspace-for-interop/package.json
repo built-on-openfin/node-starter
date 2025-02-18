@@ -5,8 +5,8 @@
 	"main": "./server/build/index.js",
 	"bin": "./server/build/index.js",
 	"scripts": {
-		"kill": "node ./scripts/kill.mjs",		
-		"server": "node ./server/build/index.js",		
+		"kill": "node ./scripts/kill.mjs",
+		"server": "node ./server/build/index.js",
 		"build-server": "tsc --project ./server",
 		"build": "npm run build-server",
 		"setup": "npm install && npm run build"

@@ -13,7 +13,7 @@ The node app itself is command line driven. It does not contain a UI. The app pe
 - Connects to the Workspace Platform Starter instance (please ensure that this is running prior to running this example).
 - Connects to the green channel in the Workspace Platform Starter platform.
 - Creates two listeners, one each for a published context and intent, originating from the Workspace PLatform Starter.
-- Based on the command line argument passed in, this app will either publish a fdc3.Contact context or fire a ViewContact intent.
+- Based on the command line argument passed in, this app will either publish a fdc3.Contact context or fire a ViewContact intent or fire a ViewContact intent with a specific app (participant-summary-view) as a target.
 
 ### Building the Node App
 
@@ -50,47 +50,55 @@ The node app is started with the command: npm run server <context/intent>.
 4. Open a new Terminal / Command Window in the same sub-folder as step 1. Run
 
    ```bash
+   // share contact context
    npm run server context
    OR
+   // raise a ViewContact intent with contact context
    npm run server intent
+   OR
+   // raise a ViewContact intent with contact context specifying target app participant-summary-view
+   npm run server intentWithTarget
    ```
 
    to run the node app.
 
 ## Workspace Platform Starter Modifications
+
 In order to test firing intents from within the Workspace Platform Starter app that are received by the node app, you will need to modify the apps.json file in the Workspace Platform Starter (public\common\apps.json). Please copy and paste the following text into that file, as the first element in the array at the top:
-```
+
+```json
 {
-		"appId": "node-app",
-		"name": "node-app",
-		"title": "Node JS app",
-		"description": "A Node JS app that connects to WOrkspace via the node adapter and performs interop.",
-		"manifest": <fully qualified path name of the node app>,
-		"manifestType": "external",
-		"private": true,
-    	"autostart": false,
-		"instanceMode": "single",
-		"icons": [
-			{
-				"src": "http://localhost:8080/common/images/icon-blue.png"
-			}
-		],
-		"contactEmail": "contact@example.com",
-		"supportEmail": "support@example.com",
-		"publisher": "OpenFin",
-		"intents": [
-			{
-				"name": "ViewContact",
-				"displayName": "View Contact",
-				"contexts": ["fdc3.contact"]
-			}
-		],
-		"images": [],
-		"tags": []
-	}
+  "appId": "node-app",
+  "name": "node-app",
+  "title": "Node JS app",
+  "description": "A Node JS app that connects to WOrkspace via the node adapter and performs interop.",
+  "manifest": <fully qualified path name of the node app>,
+  "manifestType": "external",
+  "private": true,
+     "autostart": false,
+  "instanceMode": "single",
+  "icons": [
+   {
+    "src": "http://localhost:8080/common/images/icon-blue.png"
+   }
+  ],
+  "contactEmail": "contact@example.com",
+  "supportEmail": "support@example.com",
+  "publisher": "OpenFin",
+  "intents": [
+   {
+    "name": "ViewContact",
+    "displayName": "View Contact",
+    "contexts": ["fdc3.contact"]
+   }
+  ],
+  "images": [],
+  "tags": []
+ }
 ```
 
 ### Note about "manifest" in the snippet above
+
 For the manifest, please provide the fully qualified path name of the location of the node app. Alternately you can also provide the name of a batch file that will execute the node app. If you provide the path to the node app then please ensure that you provide the correct amount of command line arguments. Please see the section above named "command line arguments" below.
 
 ## Command line arguments
@@ -101,14 +109,15 @@ At least one command line argument must be passed in. This excludes the 3 argume
 
 2. npm run server intent - If "intent" is passed in then the app will start up as described above and fire a ViewContact intent. You will see the Workspace Platform Starter display the intent picker UI. If you pick one of the apps (eg. Client Overview) you will see the information for the context that came is as part of the intent from the node app. Please see the next section that shows how to set up the Workspace Platform Starter to publish intents to the Node app.
 
-   
+3. npm run server intentWithTarget - If "intentWithTarget" is passed in then the app will start up as described above and fire a ViewContact intent specifying a target app with appId participant-summary-view. You will not see the Workspace Platform Starter display the intent picker UI but it will launch the participant summary app with the Avi Green contact context. Please see the next section that shows how to set up the Workspace Platform Starter to publish intents to the Node app.
 
-#### Testing that intents fired from Workspace Platform Starter are received by the Node app
+### Testing that intents fired from Workspace Platform Starter are received by the Node app
+
 - Ensure that you have the Workspace Platform Starter app running.
 
-  Link to the Workspace Platform Starter sample code: https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter
+  Link to the Workspace Platform Starter sample code: <https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter>
 
-  Link to the live example of Workspace Platform Starter:  https://github.com/built-on-openfin/workspace-starter?#readme
+  Link to the live example of Workspace Platform Starter: <https://github.com/built-on-openfin/workspace-starter?#readme>
   Scroll down to the where all the examples are listed. The second example says "Workspace Platform Starter" Click on the link named "Example 1". This will attempt to start the example live, without you needing to download and build the code. Please follow the prompts and wait until you see the Dock and the Home screen appear. Your app is now running.
 
 - Ensure that you have the node app running, by executing one of the two command line options mentioned in the section "Node App" above.
@@ -117,7 +126,7 @@ At least one command line argument must be passed in. This excludes the 3 argume
 
 - Click the "Fire Intent" button and you will see the intent picker UI open.
 
-- Select the "Node JS App" from the drop down list and click "Launch". 
+- Select the "Node JS App" from the drop down list and click "Launch".
 
 - You will see the "fdc3.contact" text and the contact name appear in the terminal window of the Node app.
 

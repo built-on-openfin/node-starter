@@ -12,10 +12,10 @@
 	<body class="col fill gap20">
 		<header class="row spread middle">
 			<div class="col">
-				<h1>
-					WebSocket/LongPoll Simulator
+				<h1>WebSocket/LongPoll Simulator</h1>
+				<h1 class="tag">
+					A very simple server that lets you send messages to broadcast or be available to poll.
 				</h1>
-				<h1 class="tag">A very simple server that lets you send messages to broadcast or be available to poll.</h1>
 			</div>
 			<div class="row middle gap10">
 				<image src="/icon-blue.png" alt="OpenFin" height="40px"></image>
@@ -28,10 +28,7 @@
 						<div class="form-section col gap10">
 							<h2>Settings</h2>
 							<fieldset>
-								<label
-									for="messageType"
-									title="What type of message do you want to send."
-								>
+								<label for="messageType" title="What type of message do you want to send.">
 									Message Type
 								</label>
 								<select name="messageType" id="messageType">
@@ -40,14 +37,8 @@
 								</select>
 							</fieldset>
 							<fieldset id="notificationMessages">
-								<label
-									for="notificationTypeExamples"
-									title="Sample messages."
-								>
-									Example Messages
-								</label>
-								<select name="notificationTypeExamples" id="notificationTypeExamples">
-								</select>
+								<label for="notificationTypeExamples" title="Sample messages.">Example Messages</label>
+								<select name="notificationTypeExamples" id="notificationTypeExamples"></select>
 							</fieldset>
 							<fieldset>
 								<label
@@ -74,7 +65,10 @@
 					<button id="btnClear">Clear Logs</button>
 				</div>
 				<div class="row gap10">
-					<a href="https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter" target="_blank">
+					<a
+						href="https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter"
+						target="_blank"
+					>
 						Workspace Platform Starter
 					</a>
 				</div>

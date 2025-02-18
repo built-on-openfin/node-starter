@@ -8,17 +8,21 @@ import type OpenFin from "@openfin/node-adapter";
 import { connect } from "@openfin/node-adapter";
 import { setDefaultResultOrder } from "dns";
 
-
 /**
  * Initializes the OpenFin Runtime.
  */
 async function init(): Promise<void> {
 	console.log("Processing command line args.");
-	
+
 	const args = process.argv.slice(2); // Slice to remove the first two elements (node and script path)
+	const contextArg = "context";
+	const intentArg = "intent";
+	const intentWithTargetArg = "intentwithtarget";
 
 	if (args.length === 1) {
-		if(args[0].toLowerCase() !== "context" && args[0].toLowerCase() !== "intent") {
+		const passedArg = args[0].toLowerCase();
+
+		if (passedArg !== contextArg && passedArg !== intentArg && passedArg !== intentWithTargetArg) {
 			throw new Error(`Invalid command line argument passed in: ${args[0]}`);
 		}
 
@@ -32,7 +36,7 @@ async function init(): Promise<void> {
 			}
 		});
 		console.log("fin connection established.");
-		
+
 		const interopClient = fin.Interop.connectSync("workspace-platform-starter");
 		console.log(`Connected to interop broker on platform: ${interopClient.me.uuid}`);
 
@@ -65,31 +69,37 @@ async function init(): Promise<void> {
 		// create a sample intent object
 		const intent = {
 			name: "ViewContact",
-			context: { 
-				type: "fdc3.contact", 
-				name: "Avi Green", 
-				id: { 
-					"email": "avi.green@example.com" 
-				} 
-			}
+			context: myContext
 		};
 
-		if(args[0].toLowerCase() === "context") {
+		const intentWithTarget = {
+			name: "ViewContact",
+			context: myContext,
+			metadata: { target: { appId: "participant-summary-view" } }
+		};
+
+		if (passedArg === contextArg) {
 			console.log("Waiting 5 seconds before firing the context.");
 			setTimeout(async () => {
 				await interopClient.setContext(myContext);
 			}, 5000);
-		} else if(args[0].toLowerCase() === "intent") {
+		} else if (passedArg === intentArg) {
 			console.log("Waiting 5 seconds before firing the intent.");
 			setTimeout(async () => {
 				await interopClient.fireIntent(intent);
 			}, 5000);
-		} 
+		} else if (passedArg === intentWithTargetArg) {
+			console.log("Waiting 5 seconds before firing the intent with target app.");
+			setTimeout(async () => {
+				await interopClient.fireIntent(intentWithTarget);
+			}, 5000);
+		}
 	} else {
-		throw new Error("\r\n>> You must provide ONLY one command line argument. Eg. \"npm run server context\" OR \"npm run server intent\". <<");
+		throw new Error(
+			"\r\n>> You must provide ONLY one command line argument. Eg. 'npm run server context' OR 'npm run server intent' OR 'npm run server intentWithTarget'. <<"
+		);
 	}
 }
-
 
 /**
  * handle incoming context
@@ -97,7 +107,7 @@ async function init(): Promise<void> {
  * @return void
  */
 function handleIncomingContext(contextInfo: OpenFin.Context): void {
-	const { type, id } = contextInfo;
+	const { type } = contextInfo;
 	console.log(`Received context of type ${type}`);
 	console.log(`Context Name: ${contextInfo.name}`);
 }
@@ -111,7 +121,6 @@ try {
 	// is being resolved in later versions of node (e.g. 20.7.0 has been tested).
 	// If you are below 17 or at or above v20 of node then this block is not needed.
 }
-
 
 init()
 	.then(() => {
