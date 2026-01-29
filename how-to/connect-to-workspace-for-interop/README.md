@@ -1,6 +1,6 @@
-![OpenFin Node Adapter Example -- Connect To Workspace Starter For Interop](../../assets/OpenFin-Starter.png)
+![Here Node Adapter Example -- Connect To Workspace Starter For Interop](../../assets/hero-starter-nodejs.png)
 
-> **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: Here Node Adapter:_** [Here Node Adapter]((https://www.here.io/here-core)/) is a commercial product and this repo is for evaluation purposes. Use of the Here Node Adapter, Here Container and Core Workspace components is only granted pursuant to a license from Here. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node, Interop and FDC3
 
@@ -17,7 +17,7 @@ The node app itself is command line driven. It does not contain a UI. The app pe
 
 ### Building the Node App
 
-> **_:information_source: Node version used:_** This sample was built and tested against node v20.9.0.
+> **_:information_source: Node version used:_** This sample was built and tested against node v22.x.
 
 The node app project can be found in [server/src/index.ts](./server/src/index.ts).
 
@@ -84,7 +84,7 @@ In order to test firing intents from within the Workspace Platform Starter app t
   ],
   "contactEmail": "contact@example.com",
   "supportEmail": "support@example.com",
-  "publisher": "OpenFin",
+  "publisher": "Here",
   "intents": [
    {
     "name": "ViewContact",

@@ -1,6 +1,6 @@
 {
 	"devtools_port": 9090,
-	"licenseKey": "openfin-demo-license-key",
+	"licenseKey": "here-demo-license-key",
 	"runtime": {
 		"arguments": "--v=1 --inspect",
 		"version": "33.116.77.8"
@@ -33,16 +33,16 @@
 		}
 	],
 	"shortcut": {
-		"company": "OpenFin",
+		"company": "Here",
 		"description": "A way of showing how an app can use a proxy app to work with a native sidecar where an app asset is automatically fetched.",
 		"icon": "http://localhost:6060/favicon.ico",
 		"name": "Node Sidecar App Platform - Basic - App Asset",
 		"target": ["desktop"]
 	},
 	"supportInformation": {
-		"company": "OpenFin",
-		"product": "OpenFin Node Sidecar App Platform - Basic - App Asset",
-		"email": "support@openfin.co",
+		"company": "Here",
+		"product": "Here Node Sidecar App Platform - Basic - App Asset",
+		"email": "support@here.io",
 		"forwardErrorReports": true
 	}
 }
