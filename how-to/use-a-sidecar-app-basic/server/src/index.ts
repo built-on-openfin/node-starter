@@ -30,7 +30,7 @@ async function init(): Promise<void> {
 	console.log("Establishing fin connection.");
 	const fin = await connect({
 		uuid: SIDECAR_UUID,
-		licenseKey: "here-demo-license-key",
+		licenseKey: "openfin-demo-license-key",
 		runtime: {
 			version: "33.116.77.8"
 		}

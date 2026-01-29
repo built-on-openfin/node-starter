@@ -1,6 +1,6 @@
-![hero-starter-nodejs](./public/images/hero-starter-nodejs.png)
+![OpenFin Node Adapter Example -- How To Connect To An Interop Broker Basic](../../assets/OpenFin-Starter.png)
 
-> **_:information_source: HERE Node Adapter:_** [HERE Node Adapter](https://www.here.io/here-core/) is a commercial product and this repo is for evaluation purposes. Use of the HERE Node Adapter, HERE Container and HERE Workspace components is only granted pursuant to a license from HERE. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node, Interop and FDC3
 
@@ -17,7 +17,7 @@ We've created a basic platform. The platform app shows it's provider window and 
 
 ### Node App
 
-> **_:information_source: Node version used:_** This sample was built and tested against node v22.19.0.
+> **_:information_source: Node version used:_** This sample was built and tested against node v16.19.1.
 
 The node app exposes a Channel API service that the web platform can connect to. It needs this so that it can receive context messages that should be sent out on app channels and user channels(as the Node App doesn't have a UI).
 

@@ -1,10 +1,10 @@
-![HERE Node Adapter Example -- How To Use A SideCar App](./public/images/hero-starter-nodejs.png)
+![OpenFin Node Adapter Example -- How To Use A SideCar App](../../assets/OpenFin-Starter.png)
 
-> **_:information_source: HERE Node Adapter:_** [HERE Node Adapter](https://www.here.io/here-core/) is a commercial product and this repo is for evaluation purposes. Use of the HERE Node Adapter and HERE Core components is only granted pursuant to a license from HERE. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Please Note
 
-> **_:warning: App Asset & Launch External Process:_** Using app assets and launch external process is a trade off and it is important to balance the pros and the cons. The pro is that an app asset can be used to provide enhanced capabilities to your application. The cons to consider is that it will make your deployments harder. HERE has a very streamlined deployment process that makes deploying and upgrading easy. When you introduce an app asset you do have the ability to download and update your app asset but your client needs to be happy with allowing zips containing a binary to be downloaded and to permission the APIs download app asset and launch external process.
+> **_:warning: App Asset & Launch External Process:_** Using app assets and launch external process is a trade off and it is important to balance the pros and the cons. The pro is that an app asset can be used to provide enhanced capabilities to your application. The cons to consider is that it will make your deployments harder. OpenFin has a very streamlined deployment process that makes deploying and upgrading easy. When you introduce an app asset you do have the ability to download and update your app asset but your client needs to be happy with allowing zips containing a binary to be downloaded and to permission the APIs download app asset and launch external process.
 
 ## Learning more about App Assets & Launch External Process
 
@@ -31,7 +31,7 @@ The SideCar Application in this case is a Node application that:
 
 The SideCar App is a Node App which is visible when launched. It logs messages to the console so that you can see how it interacts with the host app.
 
-When the platform launches the SideCar App it tries to connect to this service and waits. The node app creates the service shortly after connecting to the HERE runtime.
+When the platform launches the SideCar App it tries to connect to this service and waits. The node app creates the service shortly after connecting to the OpenFin runtime.
 
 When a client connects it uses the publish api to send a message to all connected clients that have the registered function meant to receive the message.
 
@@ -57,7 +57,7 @@ The SideCar Platform App has two manifests:
 
 The buttons perform the following functions:
 
-- Connect To SideCar App - This button checks to see if an AppAsset has been defined in the manifest. If it has it means the RVM has fetched the asset already, otherwise it defines an AppAsset and downloads it using the HERE API. It will then launch the asset through the LaunchExternalProcess API and connects to it using our Channel API (once the native app is launched you need to click the create service button for it to connect).
+- Connect To SideCar App - This button checks to see if an AppAsset has been defined in the manifest. If it has it means the RVM has fetched the asset already, otherwise it defines an AppAsset and downloads it using the OpenFin API. It will then launch the asset through the LaunchExternalProcess API and connects to it using our Channel API (once the native app is launched you need to click the create service button for it to connect).
 - Dispatch Message To SideCar App - The platform app uses the client connection to the SideCar App to send a message and receive a response from the SideCar App.
 - Clear Logs - simply clears the panel to make it easier to see status messages.
 

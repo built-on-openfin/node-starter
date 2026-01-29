@@ -19,7 +19,7 @@ async function init(): Promise<void> {
 	const platformUUID = "node-platform-interopbroker";
 	const fin = await connect({
 		uuid: NODE_UUID,
-		licenseKey: "here-demo-license-key",
+		licenseKey: "openfin-demo-license-key",
 		runtime: {
 			version: "33.116.77.8"
 		}

@@ -1,7 +1,7 @@
 {
 	"name": "node-sidecar-basic",
 	"version": "1.0.0",
-	"description": "Here Node Adapter -- Use a SideCar app basic",
+	"description": "OpenFin Node Adapter -- Use a SideCar app basic",
 	"main": "./server/build/index.js",
 	"bin": "./server/build/index.js",
 	"scripts": {
@@ -16,7 +16,7 @@
 		"setup": "npm install && npm run build",
 		"pack": "pkg package.json && cd ./server/build && bestzip ../../public/assets/sidecar-app.zip node-sidecar-basic.exe "
 	},
-	"author": "john.mandia@here.io, ameet.jayawant@here.io",
+	"author": "john.mandia@openfin.co",
 	"license": "SEE LICENSE IN LICENSE.MD",
 	"dependencies": {
 		"@openfin/node-adapter": "33.77.8"

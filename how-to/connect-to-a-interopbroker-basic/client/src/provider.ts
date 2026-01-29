@@ -161,7 +161,7 @@ async function dispatchMessageToNodeApp(): Promise<void> {
 async function launchFDC3ContextWindow(): Promise<void> {
 	await fin.Window.create({
 		name: `fdc3-context-window-${Date.now()}`,
-		url: "https://built-on-openfin.github.io/dev-extensions/main/interop/fdc3/context/2-0/fdc3-broadcast-view.html",
+		url: "https://built-on-openfin.github.io/dev-extensions/extensions/v14.0.0/interop/fdc3/context/2-0/fdc3-broadcast-view.html",
 		fdc3InteropApi: "2.0",
 		interop: {
 			currentContextGroup: userContextChannelName ?? "green"

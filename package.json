@@ -19,7 +19,7 @@
 	"packageExclude": [],
 	"packageCustomFolder": "",
 	"contributors": [
-		"john.mandia@here.io"
+		"john.mandia@openfin.co"
 	],
 	"license": "SEE LICENSE IN LICENSE.MD",
 	"devDependencies": {

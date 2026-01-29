@@ -1,6 +1,6 @@
 {
 	"devtools_port": 9090,
-	"licenseKey": "here-demo-license-key",
+	"licenseKey": "openfin-demo-license-key",
 	"runtime": {
 		"arguments": "--v=1 --inspect",
 		"version": "33.116.77.8"
@@ -25,16 +25,16 @@
 		"windows": []
 	},
 	"shortcut": {
-		"company": "Here",
+		"company": "OpenFin",
 		"description": "A way of showing how an app can use a proxy app to work with a native sidecar.",
 		"icon": "http://localhost:6060/favicon.ico",
 		"name": "Node - Sidecar App Platform - Basic",
 		"target": ["desktop"]
 	},
 	"supportInformation": {
-		"company": "Here",
-		"product": "Here Node Sidecar App Platform - Basic",
-		"email": "support@here.io",
+		"company": "OpenFin",
+		"product": "OpenFin Node Sidecar App Platform - Basic",
+		"email": "support@openfin.co",
 		"forwardErrorReports": true
 	}
 }

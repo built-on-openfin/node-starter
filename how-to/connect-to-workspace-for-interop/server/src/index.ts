@@ -30,7 +30,7 @@ async function init(): Promise<void> {
 
 		const fin = await connect({
 			uuid: "node-app",
-			licenseKey: "here-demo-license-key",
+			licenseKey: "openfin-demo-license-key",
 			runtime: {
 				version: "33.116.77.8"
 			}
