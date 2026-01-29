@@ -1,6 +1,6 @@
-![OpenFin Node Adapter Example -- How To Connect To An Interop Broker Basic](../../assets/OpenFin-Starter.png)
+![Here Node Adapter Example -- How To Connect To An Interop Broker Basic](../../assets/hero-starter-nodejs.png)
 
-> **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: Here Node Adapter:_** [Here Node Adapter](https://cdn.openfin.co/docs/javascript/32.114.76.14/) is a commercial product and this repo is for evaluation purposes. Use of the Here Node Adapter and Here Core components is only granted pursuant to a license from Here. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node
 

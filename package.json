@@ -1,7 +1,7 @@
 {
-	"name": "openfin-node-starter",
+	"name": "here-node-starter",
 	"version": "1.0.0",
-	"description": "OpenFin Node Starter",
+	"description": "Here Node Starter",
 	"scripts": {
 		"build": "npm run build --workspaces",
 		"prettier": "prettier --config .prettierrc --write .",
@@ -19,7 +19,7 @@
 	"packageExclude": [],
 	"packageCustomFolder": "",
 	"contributors": [
-		"john.mandia@openfin.co"
+		"john.mandia@here.io"
 	],
 	"license": "SEE LICENSE IN LICENSE.MD",
 	"devDependencies": {
