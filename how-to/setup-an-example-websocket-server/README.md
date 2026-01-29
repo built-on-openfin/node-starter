@@ -1,6 +1,6 @@
-![OpenFin Node Adapter Example -- How To Connect To An Interop Broker Basic](../../assets/OpenFin-Starter.png)
+![HERE Node Adapter Example -- How To Connect To An Interop Broker Basic](./public/hero-starter-nodejs.png)
 
-> **_:information_source: OpenFin Node Adapter:_** [OpenFin Node Adapter](https://www.openfin.co/workspace/) is a commercial product and this repo is for evaluation purposes. Use of the OpenFin Node Adapter, OpenFin Container and OpenFin Workspace components is only granted pursuant to a license from OpenFin. Please [**contact us**](https://www.openfin.co/workspace/poc/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: HERE Node Adapter:_** [HERE Node Adapter](https://www.here.io/here-core/) is a commercial product and this repo is for evaluation purposes. Use of the HERE Node Adapter, HERE Container and HERE Workspace components is only granted pursuant to a license from HERE. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node
 
@@ -13,11 +13,11 @@ This example is a simple Node Server that exposes:
 
 The server stores each message and keeps the last 100. It will serve all stored messages on the first connection (if you want to simulate a batch of messages you can send multiple messages and then connect a platform to the server).
 
-The web form lets you specify custom JSON objects to post but it also has a collection of example messages that work with a sample client notification service: <https://github.com/built-on-openfin/workspace-starter/blob/workspace/v19.1.0/how-to/workspace-platform-starter/client/src/modules/lifecycle/example-notification-service/README.md>.
+The web form lets you specify custom JSON objects to post but it also has a collection of example messages that work with a sample client notification service: <https://github.com/built-on-openfin/workspace-starter/blob/main/how-to/workspace-platform-starter/client/src/modules/lifecycle/example-notification-service/README.md>.
 
-This example service listens to a stream of events from an endpoint. We have included an example endpoint that can generate notifications based on lifecycle events e.g theme changed or it can listen on a specified websocket address: <https://github.com/built-on-openfin/workspace-starter/tree/workspace/v19.1.0/how-to/workspace-platform-starter/client/src/modules/endpoint/example-notification-source/README.md>
+This example service listens to a stream of events from an endpoint. We have included an example endpoint that can generate notifications based on lifecycle events e.g theme changed or it can listen on a specified websocket address: <https://github.com/built-on-openfin/workspace-starter/blob/main/how-to/workspace-platform-starter/client/src/modules/endpoint/example-notification-source/README.md>
 
-These examples run under our [workspace platform starter example](https://github.com/built-on-openfin/workspace-starter/blob/workspace/v19.1.0/how-to/workspace-platform-starter/) platform and are enabled by default in our [example manifest](https://github.com/built-on-openfin/workspace-starter/blob/workspace/v19.1.0/how-to/workspace-platform-starter/public/manifest.fin.json).
+These examples run under our [workspace platform starter example](https://github.com/built-on-openfin/workspace-starter/tree/main/how-to/workspace-platform-starter) platform and are enabled by default in our [example manifest](https://github.com/built-on-openfin/workspace-starter/blob/main/how-to/workspace-platform-starter/public/manifest.fin.json).
 
 Inside of the manifest you need to set the websocket url setting: "websocket": { "url": "ws://localhost:6060" }. If you want to test long polling that set the longpoll url: "longpoll": { url:"<http://localhost:6060/api/messages>" }
 

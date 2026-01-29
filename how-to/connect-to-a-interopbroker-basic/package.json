@@ -1,7 +1,7 @@
 {
 	"name": "connect-to-a-interopbroker-basic",
 	"version": "1.0.0",
-	"description": "OpenFin Node Adapter -- Connect to an interop broker basic",
+	"description": "Here Node Adapter -- Connect to an interop broker basic",
 	"main": "./server/build/index.js",
 	"bin": "./server/build/index.js",
 	"scripts": {
@@ -14,7 +14,7 @@
 		"build": "npm run build-server && npm run build-client",
 		"setup": "npm install && npm run build"
 	},
-	"author": "john.mandia@openfin.co",
+	"author": "john.mandia@here.io, ameet.jayawant@here.io",
 	"license": "SEE LICENSE IN LICENSE.MD",
 	"dependencies": {
 		"@openfin/node-adapter": "33.77.8"
