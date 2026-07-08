@@ -1,0 +1,28 @@
+{
+	"name": "setup-an-example-jwks-endpoint",
+	"version": "1.0.0",
+	"description": "A very basic example node server that can generate JWTs and expose a JWKS (/.well-known/jwks.json) endpoint",
+	"type": "module",
+	"main": "./server/build/index.js",
+	"bin": "./server/build/index.js",
+	"scripts": {
+		"start": "npm run server",
+		"server": "node ./server/build/index.js",
+		"build-server": "tsc --project ./server",
+		"build": "npm run build-server",
+		"setup": "npm install && npm run build"
+	},
+	"author": "john.mandia@here.io",
+	"license": "SEE LICENSE IN LICENSE.MD",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^5.2.1",
+		"jose": "^6.0.0"
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.17",
+		"@types/express": "^5.0.6",
+		"@types/node": "^22.6.1",
+		"typescript": "^5.6.2"
+	}
+}
