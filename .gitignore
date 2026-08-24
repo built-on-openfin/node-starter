@@ -2,6 +2,8 @@ node_modules
 build
 out
 .DS_STORE
+# Generated shared secret for the JWKS example, which should never be committed
+.hmac-secret
 how-to/*/package-lock.json
 how-to/workspace-platform-starter/packaged
 how-to/workspace-platform-starter/public/js/assets/provider.zip

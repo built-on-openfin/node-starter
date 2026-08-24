@@ -14,7 +14,8 @@
 			<div class="col">
 				<h1>JWT / JWKS Endpoint Example</h1>
 				<h1 class="tag">
-					Issue RS256 signed JWTs and publish the matching public key via /.well-known/jwks.json.
+					Issue RS256 signed JWTs verified via /.well-known/jwks.json, or HS256 signed JWTs verified with a
+					shared secret.
 				</h1>
 			</div>
 		</header>
@@ -22,6 +23,15 @@
 			<div class="col fill gap20 scroll-vertical">
 				<div class="form-group">
 					<h2>Issue a Token</h2>
+					<fieldset>
+						<label for="algorithm" title="How the token should be signed, and therefore how it is verified">
+							Signing Algorithm
+						</label>
+						<select id="algorithm" class="full">
+							<option value="RS256" selected>RS256 - verified via the JWKS endpoint</option>
+							<option value="HS256">HS256 - verified with the shared secret</option>
+						</select>
+					</fieldset>
 					<fieldset>
 						<label for="sub" title="The subject (sub) claim of the token">Subject (sub)</label>
 						<input type="text" id="sub" class="full" placeholder="demo-user" />
@@ -80,12 +90,25 @@
 					<pre id="tokenOutput" class="full output">No token issued yet.</pre>
 				</div>
 			</div>
-			<div class="col fill gap20">
+			<div class="col fill gap20 scroll-vertical">
 				<div class="form-group">
 					<h2>JWKS &amp; Verification</h2>
-					<div class="row gap10">
+					<div class="row gap10 middle">
 						<button id="btnViewJwks" class="secondary">View JWKS</button>
-						<button id="btnCopyJwksUrl" class="plain small">Copy JWKS URL</button>
+						<button
+							id="btnCopyJwksUrl"
+							class="plain small"
+							title="Copy the /.well-known/jwks.json URL for this server"
+						>
+							Copy JWKS URL
+						</button>
+						<button
+							id="btnCopyDiscoveryUrl"
+							class="plain small"
+							title="Copy the /.well-known/openid-configuration URL, for verifiers that use OIDC discovery"
+						>
+							Copy Discovery URL
+						</button>
 					</div>
 					<pre id="jwksOutput" class="full output">Click "View JWKS" to fetch /.well-known/jwks.json.</pre>
 					<fieldset>
@@ -98,6 +121,33 @@
 						<button id="btnVerifyToken" class="secondary">Verify Token</button>
 					</div>
 					<pre id="verifyOutput" class="full output">No token verified yet.</pre>
+				</div>
+				<div class="form-group">
+					<div class="row spread middle">
+						<h2>Shared Secret (HS256)</h2>
+						<div class="row gap10">
+							<button
+								id="btnCopySecret"
+								class="plain small"
+								title="Copy the shared secret, to paste into the verifying system's configuration"
+							>
+								Copy Secret
+							</button>
+							<button
+								id="btnRefreshSecret"
+								class="plain small"
+								title="Generate a new shared secret, invalidating every token issued with the previous one"
+							>
+								Refresh Secret
+							</button>
+						</div>
+					</div>
+					<p>
+						For test scenarios only. Use this secret instead of the JWKS URL when the verifying system (for
+						example a cloud interop service) cannot reach this server's JWKS endpoint.
+					</p>
+					<pre id="secretOutput" class="full output">Loading...</pre>
+					<p id="secretSource"></p>
 				</div>
 				<div class="col fill gap10 logs-panel">
 					<div class="row spread middle">
@@ -114,7 +164,8 @@
 					<span>
 						Tip: run
 						<code>ngrok http &lt;port&gt;</code>
-						to call this server from another machine.
+						to call this server from another machine, or use HS256 with the shared secret when the JWKS
+						endpoint cannot be reached at all.
 					</span>
 				</div>
 			</div>

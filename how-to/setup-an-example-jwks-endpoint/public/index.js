@@ -43,6 +43,7 @@ async function issueToken(elements) {
 	try {
 		const claims = parseClaims(elements.claims.value);
 		const body = {
+			algorithm: elements.algorithm.value,
 			sub: elements.sub.value.trim() || undefined,
 			aud: elements.aud.value.trim() || undefined,
 			issuer: elements.issuer.value.trim() || undefined,
@@ -141,6 +142,98 @@ async function copyJwksUrl(elements) {
 }
 
 /**
+ * Copy this server's OIDC discovery document URL to the clipboard. Verifiers that support OIDC
+ * discovery can be pointed at this instead of the JWKS URL directly.
+ * @param elements The relevant form/output elements.
+ */
+async function copyDiscoveryUrl(elements) {
+	const discoveryUrl = `${window.location.origin}/.well-known/openid-configuration`;
+	try {
+		await navigator.clipboard.writeText(discoveryUrl);
+		log(elements.log, `Copied OIDC discovery URL to the clipboard: ${discoveryUrl}`);
+	} catch (error) {
+		log(elements.log, `Failed to copy to clipboard: ${error.message}`);
+	}
+}
+
+/**
+ * Show the current shared secret, explaining where it came from. A secret fixed by the
+ * HMAC_SECRET environment variable cannot be rotated at runtime, so refreshing is disabled.
+ * @param elements The relevant form/output elements.
+ * @param secret The current shared secret.
+ * @param source Where the secret came from: "env", "file" or "generated".
+ */
+function displaySecret(elements, secret, source) {
+	elements.secretOutput.textContent = secret;
+
+	if (source === 'env') {
+		elements.secretSource.textContent =
+			'Set via the HMAC_SECRET environment variable, so it cannot be regenerated here. Unset it and restart the server to go back to a generated secret.';
+		elements.btnRefreshSecret.disabled = true;
+	} else {
+		elements.secretSource.textContent =
+			'Generated automatically and persisted to .hmac-secret, so it survives a server restart.';
+		elements.btnRefreshSecret.disabled = false;
+	}
+}
+
+/**
+ * Load the current shared secret so it can be copied into the verifying system's configuration.
+ * @param elements The relevant form/output elements.
+ */
+async function loadSecret(elements) {
+	try {
+		const response = await fetch('/api/secret');
+		if (!response.ok) {
+			throw new Error(`Server responded with ${response.status}`);
+		}
+		const { secret, source } = await response.json();
+		displaySecret(elements, secret, source);
+	} catch (error) {
+		elements.secretOutput.textContent = 'Could not load the shared secret.';
+		log(elements.log, `Failed to load the shared secret: ${error.message}`);
+	}
+}
+
+/**
+ * Copy the shared secret to the clipboard.
+ * @param elements The relevant form/output elements.
+ */
+async function copySecret(elements) {
+	try {
+		await navigator.clipboard.writeText(elements.secretOutput.textContent);
+		log(elements.log, 'Copied the shared secret to the clipboard');
+	} catch (error) {
+		log(elements.log, `Failed to copy to clipboard: ${error.message}`);
+	}
+}
+
+/**
+ * Rotate to a newly generated shared secret. Every token issued with the previous secret stops
+ * verifying, so the new secret has to be copied to the verifying system.
+ * @param elements The relevant form/output elements.
+ */
+async function refreshSecret(elements) {
+	try {
+		const response = await fetch('/api/secret/refresh', { method: 'POST' });
+		const result = await response.json();
+
+		if (!response.ok) {
+			log(elements.log, `Could not refresh the shared secret: ${result.error}`);
+			return;
+		}
+
+		displaySecret(elements, result.secret, result.source);
+		log(
+			elements.log,
+			'Shared secret refreshed. Copy it to the verifying system, as tokens issued with the previous secret no longer verify.'
+		);
+	} catch (error) {
+		log(elements.log, `Failed to refresh the shared secret: ${error.message}`);
+	}
+}
+
+/**
  * Verify the token currently entered in the "Token To Verify" textarea.
  * @param elements The relevant form/output elements.
  */
@@ -166,6 +259,7 @@ async function verifyToken(elements) {
 
 document.addEventListener('DOMContentLoaded', () => {
 	const elements = {
+		algorithm: document.querySelector('#algorithm'),
 		sub: document.querySelector('#sub'),
 		aud: document.querySelector('#aud'),
 		issuer: document.querySelector('#issuer'),
@@ -173,6 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		claims: document.querySelector('#claims'),
 		tokenOutput: document.querySelector('#tokenOutput'),
 		jwksOutput: document.querySelector('#jwksOutput'),
+		secretOutput: document.querySelector('#secretOutput'),
+		secretSource: document.querySelector('#secretSource'),
+		btnRefreshSecret: document.querySelector('#btnRefreshSecret'),
 		verifyToken: document.querySelector('#verifyToken'),
 		verifyOutput: document.querySelector('#verifyOutput'),
 		log: document.querySelector('#log')
@@ -183,6 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnCopyToken = document.querySelector('#btnCopyToken');
 	const btnViewJwks = document.querySelector('#btnViewJwks');
 	const btnCopyJwksUrl = document.querySelector('#btnCopyJwksUrl');
+	const btnCopyDiscoveryUrl = document.querySelector('#btnCopyDiscoveryUrl');
+	const btnCopySecret = document.querySelector('#btnCopySecret');
 	const btnVerifyToken = document.querySelector('#btnVerifyToken');
 	const btnClear = document.querySelector('#btnClear');
 
@@ -216,6 +315,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	btnCopyDiscoveryUrl.addEventListener('click', () => {
+		copyDiscoveryUrl(elements).catch((error) => {
+			console.error('Unhandled error copying discovery URL', error);
+		});
+	});
+
+	btnCopySecret.addEventListener('click', () => {
+		copySecret(elements).catch((error) => {
+			console.error('Unhandled error copying the shared secret', error);
+		});
+	});
+
+	elements.btnRefreshSecret.addEventListener('click', () => {
+		refreshSecret(elements).catch((error) => {
+			console.error('Unhandled error refreshing the shared secret', error);
+		});
+	});
+
 	btnVerifyToken.addEventListener('click', () => {
 		verifyToken(elements).catch((error) => {
 			console.error('Unhandled error verifying token', error);
@@ -224,5 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	btnClear.addEventListener('click', () => {
 		elements.log.textContent = '';
+	});
+
+	loadSecret(elements).catch((error) => {
+		console.error('Unhandled error loading the shared secret', error);
 	});
 });

@@ -41,6 +41,12 @@ export interface JwtRequestCallbackOptions {
 	 */
 	tokenEndpoint?: string;
 	/**
+	 * How the token should be signed. RS256 (the default) is verified against the server's JWKS
+	 * endpoint, whereas HS256 is verified with the shared secret and so needs no reachable JWKS
+	 * URL. Use HS256 only for test scenarios.
+	 */
+	algorithm?: "RS256" | "HS256";
+	/**
 	 *
 	 */
 	sub?: string;
@@ -151,6 +157,7 @@ export async function createJwtRequestCallback(
 		options.tokenEndpoint ?? process.env.JWKS_EXAMPLE_TOKEN_ENDPOINT ?? DEFAULT_TOKEN_ENDPOINT;
 	const refreshBufferRatio = options.refreshBufferRatio ?? DEFAULT_REFRESH_BUFFER_RATIO;
 	const requestBody = {
+		algorithm: options.algorithm ?? process.env.AUTHENTICATION_ALGORITHM ?? "RS256",
 		sub: options.sub ?? process.env.AUTHENTICATION_PREFERRED_SUB,
 		aud: options.aud ?? process.env.AUTHENTICATION_AUDIENCE,
 		issuer: options.issuer ?? process.env.AUTHENTICATION_ISSUER,
