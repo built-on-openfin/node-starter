@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>JWT / JWKS Endpoint Example</title>
+		<script type="module" src="./index.js"></script>
+		<link rel="stylesheet" href="/app.css" />
+	</head>
+
+	<body class="col fill gap20">
+		<header class="row spread middle">
+			<div class="col">
+				<h1>JWT / JWKS Endpoint Example</h1>
+				<h1 class="tag">
+					Issue RS256 signed JWTs verified via /.well-known/jwks.json, or HS256 signed JWTs verified with a
+					shared secret.
+				</h1>
+			</div>
+		</header>
+		<main class="row fill gap20">
+			<div class="col fill gap20 scroll-vertical">
+				<div class="form-group">
+					<h2>Issue a Token</h2>
+					<fieldset>
+						<label for="algorithm" title="How the token should be signed, and therefore how it is verified">
+							Signing Algorithm
+						</label>
+						<select id="algorithm" class="full">
+							<option value="RS256" selected>RS256 - verified via the JWKS endpoint</option>
+							<option value="HS256">HS256 - verified with the shared secret</option>
+						</select>
+					</fieldset>
+					<fieldset>
+						<label for="sub" title="The subject (sub) claim of the token">Subject (sub)</label>
+						<input type="text" id="sub" class="full" placeholder="demo-user" />
+					</fieldset>
+					<fieldset>
+						<label for="aud" title="The audience (aud) claim of the token">Audience (aud)</label>
+						<input type="text" id="aud" class="full" placeholder="my-app" />
+					</fieldset>
+					<fieldset>
+						<label for="issuer" title="The issuer (iss) claim of the token">Issuer (iss)</label>
+						<input
+							type="text"
+							id="issuer"
+							class="full"
+							placeholder="Leave blank to auto-detect from this server's URL"
+						/>
+					</fieldset>
+					<fieldset>
+						<label for="expiresIn" title="How long the token should be valid for">Expires In</label>
+						<input type="text" id="expiresIn" class="full" value="1h" />
+					</fieldset>
+					<fieldset>
+						<label for="claims" title="Additional custom claims to include, as a JSON object">
+							Custom Claims (JSON)
+						</label>
+						<textarea id="claims" rows="4" class="full">
+{
+	"preferred_username": "demo-user"
+}</textarea
+						>
+					</fieldset>
+					<div class="row gap10">
+						<button id="btnIssueToken">Issue Token</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row spread middle">
+						<h3>Issued Token</h3>
+						<div class="row gap10">
+							<button
+								id="btnCopyTokenOnly"
+								class="plain small"
+								title="Copy just the raw JWT string (header.payload.signature) — use this when hardcoding a token or passing it as a bearer token"
+							>
+								Copy Token
+							</button>
+							<button
+								id="btnCopyToken"
+								class="plain small"
+								title="Copy the full response object, including kid/issuer/expiresIn — not a valid JWT by itself"
+							>
+								Copy JSON
+							</button>
+						</div>
+					</div>
+					<pre id="tokenOutput" class="full output">No token issued yet.</pre>
+				</div>
+			</div>
+			<div class="col fill gap20 scroll-vertical">
+				<div class="form-group">
+					<h2>JWKS &amp; Verification</h2>
+					<div class="row gap10 middle">
+						<button id="btnViewJwks" class="secondary">View JWKS</button>
+						<button
+							id="btnCopyJwksUrl"
+							class="plain small"
+							title="Copy the /.well-known/jwks.json URL for this server"
+						>
+							Copy JWKS URL
+						</button>
+						<button
+							id="btnCopyDiscoveryUrl"
+							class="plain small"
+							title="Copy the /.well-known/openid-configuration URL, for verifiers that use OIDC discovery"
+						>
+							Copy Discovery URL
+						</button>
+					</div>
+					<pre id="jwksOutput" class="full output">Click "View JWKS" to fetch /.well-known/jwks.json.</pre>
+					<fieldset>
+						<label for="verifyToken" title="A token to verify against this server's JWKS">
+							Token To Verify
+						</label>
+						<textarea id="verifyToken" rows="4" class="full"></textarea>
+					</fieldset>
+					<div class="row gap10">
+						<button id="btnVerifyToken" class="secondary">Verify Token</button>
+					</div>
+					<pre id="verifyOutput" class="full output">No token verified yet.</pre>
+				</div>
+				<div class="form-group">
+					<div class="row spread middle">
+						<h2>Shared Secret (HS256)</h2>
+						<div class="row gap10">
+							<button
+								id="btnCopySecret"
+								class="plain small"
+								title="Copy the shared secret, to paste into the verifying system's configuration"
+							>
+								Copy Secret
+							</button>
+							<button
+								id="btnRefreshSecret"
+								class="plain small"
+								title="Generate a new shared secret, invalidating every token issued with the previous one"
+							>
+								Refresh Secret
+							</button>
+						</div>
+					</div>
+					<p>
+						For test scenarios only. Use this secret instead of the JWKS URL when the verifying system (for
+						example a cloud interop service) cannot reach this server's JWKS endpoint.
+					</p>
+					<pre id="secretOutput" class="full output">Loading...</pre>
+					<p id="secretSource"></p>
+				</div>
+				<div class="col fill gap10 logs-panel">
+					<div class="row spread middle">
+						<h2>Logs</h2>
+						<button id="btnClear" class="plain small">Clear Logs</button>
+					</div>
+					<pre id="log" class="fill scroll-vertical"></pre>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div class="row spread">
+				<div class="row gap10">
+					<span>
+						Tip: run
+						<code>ngrok http &lt;port&gt;</code>
+						to call this server from another machine, or use HS256 with the shared secret when the JWKS
+						endpoint cannot be reached at all.
+					</span>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
