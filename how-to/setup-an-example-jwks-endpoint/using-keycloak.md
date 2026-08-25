@@ -113,9 +113,19 @@ Decode the same token and check all of the following, so the values you send HER
 
 ## Wiring it into Cloud Interop
 
-`@openfin/cloud-interop` takes an `authenticationId` from HERE and a synchronous callback that returns the raw token:
+`@openfin/cloud-interop` takes an `authenticationId` from HERE and a synchronous callback that returns the raw token. How your app obtains that token is application code — typically the Keycloak JavaScript adapter in the container window.
+
+> **_:warning: This is an example, not a production auth design:_** [Getting a Keycloak token for HERE Cloud Interop](./getting-a-keycloak-token-for-cloud-interop.md) shows one way to sign the user in with `keycloak-js`, cache the token, and keep it refreshed. Validate it against your own realm and client configuration, redirect URIs, token lifespans, and security review. HERE does not sign the token and does not certify that wiring for production.
 
 ```ts
+import { createKeycloakJwtRequestCallback } from './keycloakJwtRequestCallback';
+
+const jwtRequestCallback = await createKeycloakJwtRequestCallback({
+  url: 'https://{your-keycloak-host}',
+  realm: '{realm}',
+  clientId: '{client-id}'
+});
+
 const cloudConfig = {
   url: '<CLOUD_INTEROP_SERVICE_URL>',
   platformId: 'my-platform',
@@ -123,7 +133,7 @@ const cloudConfig = {
   authenticationType: 'jwt',
   jwtAuthenticationParameters: {
     authenticationId: '<PROVIDED_BY_HERE>',
-    jwtRequestCallback: () => currentKeycloakToken
+    jwtRequestCallback
   }
 };
 ```
@@ -145,6 +155,7 @@ Note that in that setup the values you send HERE are the ones **your app** puts 
 
 - [Securing applications and services with OpenID Connect](https://www.keycloak.org/securing-apps/oidc-layers)
 - [Protocol mappers](https://www.keycloak.org/admin-api/protocol-mappers)
+- [Getting a Keycloak token for HERE Cloud Interop](./getting-a-keycloak-token-for-cloud-interop.md) — example of acquiring the token in the app
 - [Example JWKS endpoint](./README.md) — test the flow without an identity provider
 - [Using Microsoft Entra ID with HERE Cloud Interop](./using-microsoft-entra-id.md)
 - [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md) — the app-signed HS256 fallback

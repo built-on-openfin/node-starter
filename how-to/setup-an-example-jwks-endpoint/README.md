@@ -31,8 +31,8 @@ The node app is started when `npm run server` is run.
 
 This example is a stand-in for an identity provider so you can test without one. If you already have one issuing your tokens, these guides show where the values HERE needs (`iss`, `aud` and the JWKS URI) live in each product:
 
-- [Using Microsoft Entra ID with HERE Cloud Interop](./using-microsoft-entra-id.md) — Entra signs RS256 only, so JWKS is the only option.
-- [Using Keycloak with HERE Cloud Interop](./using-keycloak.md) — JWKS, plus what to do when a realm sits on an internal network.
+- [Using Microsoft Entra ID with HERE Cloud Interop](./using-microsoft-entra-id.md) — Entra signs RS256 only, so JWKS is the only option. [Getting an Entra ID token](./getting-an-entra-token-for-cloud-interop.md) is a documented MSAL.js example (not production-certified) for feeding that token to `jwtRequestCallback`, whether or not `CloudAPAuthEnabled` is on.
+- [Using Keycloak with HERE Cloud Interop](./using-keycloak.md) — JWKS, plus what to do when a realm sits on an internal network. [Getting a Keycloak token](./getting-a-keycloak-token-for-cloud-interop.md) is a documented `keycloak-js` example (not production-certified) for feeding that token to `jwtRequestCallback`.
 - [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md) — the fallback for any identity provider Cloud Interop can't reach: keep authenticating with your IdP, but have your app sign a short-lived HS256 token using a secret shared with HERE.
 
 ## Endpoints
