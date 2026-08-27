@@ -22,7 +22,7 @@ flowchart TD
   app -->|jwtRequestCallback returns the raw JWT| ci[HERE Cloud Interop]
   ci -->|"must reach this to look up the key by kid"| certs
   certs -.->|public keys| ci
-  ci -->|"checks signature, iss and aud, looks up sub"| verdict[Accept or reject]
+  ci -->|"checks signature, iss and aud"| verdict[Accept or reject]
 ```
 
 The arrow from Cloud Interop back to `certs` is the one that matters. It crosses from HERE into your network, and it is the step that fails on a self-hosted realm. Only that endpoint has to be reachable — it serves public keys, not credentials.
@@ -41,7 +41,7 @@ Cloud Interop verifies every JWT your app supplies through `jwtRequestCallback`.
 
 <!-- -->
 
-> **_:information_source: `sub` is not a setup value, but it must be a user HERE knows:_** you don't register `sub` with HERE up front. Cloud Interop reads it out of each token at runtime and looks it up against its user table, rejecting the token if there is no match — so the `sub` your tokens carry has to be the identifier that was provisioned for that person in Cloud Interop. Confirm with HERE which identifier they hold if you are unsure.
+> **_:information_source: Your token must identify the user:_** include `preferred_username`, `username` or `email` in the token. Cloud Interop needs one of these to identify the signed-in user. Keycloak ID tokens carry `preferred_username` by default, so this usually needs no extra configuration. How claims map to users is set up per deployment, so discuss claims maps with your HERE representative.
 
 ## Getting the JWKS URI
 
@@ -107,24 +107,21 @@ Decode the same token and check all of the following, so the values you send HER
 
 - `iss` matches the issuer you're sending HERE, character for character.
 - `aud` matches the audience you're sending HERE.
-- `sub` is present and is the identifier Cloud Interop holds for that user.
+- `preferred_username`, `username` or `email` is present and identifies the signed-in user.
 - The token header shows `"alg": "RS256"` and a `kid`.
 - `exp` is in the future, and your app refreshes the token before it expires.
 
 ## Wiring it into Cloud Interop
 
-`@openfin/cloud-interop` takes an `authenticationId` from HERE and a synchronous callback that returns the raw token. How your app obtains that token is application code — typically the Keycloak JavaScript adapter in the container window.
+`@openfin/cloud-interop` takes an `authenticationId` from HERE and a synchronous callback that returns the raw token. How your app obtains that token is application code — typically the [Keycloak JavaScript adapter](https://www.keycloak.org/securing-apps/javascript-adapter) in the container window.
 
-> **_:warning: This is an example, not a production auth design:_** [Getting a Keycloak token for HERE Cloud Interop](./getting-a-keycloak-token-for-cloud-interop.md) shows one way to sign the user in with `keycloak-js`, cache the token, and keep it refreshed. Validate it against your own realm and client configuration, redirect URIs, token lifespans, and security review. HERE does not sign the token and does not certify that wiring for production.
+> **_:warning: `keycloak.init` completes the login by redirecting back to your app:_** the window URL has to be listed under **Valid redirect URIs** on the client in the admin console, or Keycloak refuses the login with an `Invalid parameter: redirect_uri` error.
+
+Whatever signs the user in, the callback itself is synchronous, so cache the token and hand back the cached value:
 
 ```ts
-import { createKeycloakJwtRequestCallback } from './keycloakJwtRequestCallback';
-
-const jwtRequestCallback = await createKeycloakJwtRequestCallback({
-  url: 'https://{your-keycloak-host}',
-  realm: '{realm}',
-  clientId: '{client-id}'
-});
+// Sign the user in before this runs, cache the token, and refresh it in the background.
+let cachedToken: string;
 
 const cloudConfig = {
   url: '<CLOUD_INTEROP_SERVICE_URL>',
@@ -133,19 +130,19 @@ const cloudConfig = {
   authenticationType: 'jwt',
   jwtAuthenticationParameters: {
     authenticationId: '<PROVIDED_BY_HERE>',
-    jwtRequestCallback
+    jwtRequestCallback: () => cachedToken
   }
 };
 ```
 
-> **_:warning: Return the raw JWT string:_** `jwtRequestCallback` must return the compact JWT itself (`header.payload.signature`), not the object your token library wraps it in. Returning anything else fails with `JWSInvalid: Invalid Compact JWS`. The callback is also genuinely synchronous, so acquire and refresh the token in the background and have the callback return the cached value.
+> **_:warning: Return the raw JWT string:_** `jwtRequestCallback` must return the compact JWT itself (`header.payload.signature`), not the object your token library wraps it in. Returning anything else fails with `JWSInvalid: Invalid Compact JWS`.
 
 ## If HERE cannot reach the JWKS URI
 
 Everything above assumes Cloud Interop can fetch your realm's `certs` endpoint. If your Keycloak is on an internal network, work through these in order:
 
 1. **Expose just the JWKS endpoint.** A reverse proxy in front of `/realms/{realm}/protocol/openid-connect/certs`, or a firewall allowlist for HERE's egress addresses, is usually enough. It serves public keys only, so this doesn't expose credentials — and it keeps the simpler setup described above.
-2. **If that is genuinely impossible**, your app can keep using Keycloak to authenticate users and sign its own token for Cloud Interop instead. The full steps are in [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md): your app mints a short-lived HS256 JWT with a secret it shares with HERE, and puts the authenticated Keycloak user's id in `sub`.
+2. **If that is genuinely impossible**, your app can keep using Keycloak to authenticate users and sign its own token for Cloud Interop instead. The full steps are in [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md): your app mints a short-lived HS256 JWT with a secret it shares with HERE, carrying the authenticated Keycloak user's identity.
 
 Note that in that setup the values you send HERE are the ones **your app** puts on the token it signs — not your realm's discovery `issuer` or your client ID, because Keycloak no longer signs the token Cloud Interop sees.
 
@@ -155,7 +152,7 @@ Note that in that setup the values you send HERE are the ones **your app** puts 
 
 - [Securing applications and services with OpenID Connect](https://www.keycloak.org/securing-apps/oidc-layers)
 - [Protocol mappers](https://www.keycloak.org/admin-api/protocol-mappers)
-- [Getting a Keycloak token for HERE Cloud Interop](./getting-a-keycloak-token-for-cloud-interop.md) — example of acquiring the token in the app
+- [Keycloak JavaScript adapter](https://www.keycloak.org/securing-apps/javascript-adapter) — acquiring the token in the app
 - [Example JWKS endpoint](./README.md) — test the flow without an identity provider
 - [Using Microsoft Entra ID with HERE Cloud Interop](./using-microsoft-entra-id.md)
 - [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md) — the app-signed HS256 fallback

@@ -14,15 +14,15 @@ It is provider-agnostic. It applies equally to Keycloak, Okta, Ping, a homegrown
 
 Your identity provider keeps doing what it already does: authenticating users. It just stops being the thing that signs the token Cloud Interop sees.
 
-Instead, **your application signs its own short-lived HS256 JWT** using a secret that you generate and share with HERE, and puts the authenticated user's id in the `sub` claim.
+Instead, **your application signs its own short-lived HS256 JWT** using a secret that you generate and share with HERE, carrying the authenticated user's identity.
 
 ```mermaid
 flowchart TD
   user[User] --> idp[Your IdP, e.g. internal Keycloak]
-  idp -->|"authenticates, returns user id"| app[Your app]
-  app -->|"signs its own HS256 JWT with the shared secret"| token["JWT: iss, aud, sub"]
+  idp -->|"authenticates, returns the user's details"| app[Your app]
+  app -->|"signs its own HS256 JWT with the shared secret"| token["JWT: iss, aud, preferred_username"]
   token -->|jwtRequestCallback returns raw JWT| ci[HERE Cloud Interop]
-  ci -->|"verifies HMAC, checks iss and aud, looks up sub"| verdict[Accept or reject]
+  ci -->|"verifies HMAC, checks iss and aud"| verdict[Accept or reject]
 ```
 
 > **_:information_source: HERE only verifies:_** HERE never issues or signs tokens. Your application signs the JWT; Cloud Interop uses the values below only to check the signature and confirm the claims. The shared secret is you telling HERE which key to verify with, not a key HERE uses to create anything.
@@ -45,7 +45,7 @@ Because your IdP did not sign this token, do **not** send HERE your IdP's discov
 
 ### 1. Authenticate the user with your identity provider
 
-Nothing changes here. Your app performs its normal login against Keycloak, Okta, or whatever you already use, entirely inside your network if that is where it lives. What you need out of it is a **stable identifier for the signed-in user**.
+Nothing changes here. Your app performs its normal login against Keycloak, Okta, or whatever you already use, entirely inside your network if that is where it lives. What you need out of it is a **stable identifier for the signed-in user**, such as their username or email address.
 
 ### 2. Do not pass the IdP token to the callback
 
@@ -63,7 +63,7 @@ If you want a working setup to test against before wiring up your own, the [exam
 
 ### 4. Sign a JWT for Cloud Interop
 
-Sign a short-lived token with that secret, using the `iss` and `aud` you registered and the user id from step 1:
+Sign a short-lived token with that secret, using the `iss` and `aud` you registered and the user details from step 1:
 
 ```ts
 import jwt from 'jsonwebtoken';
@@ -71,6 +71,7 @@ import jwt from 'jsonwebtoken';
 const token = jwt.sign(
   {
     sub: authenticatedUser.id,
+    preferred_username: authenticatedUser.username,
     iss: 'my-trading-app',
     aud: 'here-cloud-interop'
   },
@@ -79,7 +80,7 @@ const token = jwt.sign(
 );
 ```
 
-> **_:warning: `sub` must match a user HERE already knows:_** Cloud Interop looks the `sub` claim up against its user table and rejects the token if there is no match. It is not a value you register up front, but it cannot be an arbitrary local username — it has to be the identifier that was provisioned for that person in Cloud Interop. Confirm with HERE which identifier they hold if you are unsure.
+> **_:warning: Your token must identify the user:_** include `preferred_username`, `username` or `email` in the token. Cloud Interop needs one of these to identify the signed-in user, and because your app is minting this token itself, it is your code that has to put the value there. How claims map to users is set up per deployment, so discuss claims maps with your HERE representative.
 
 ### 5. Return the raw token from the callback
 
@@ -104,7 +105,7 @@ Decode a token your app has just signed and check:
 
 - The header shows `"alg": "HS256"`.
 - `iss` and `aud` match the values you sent HERE, character for character.
-- `sub` is the user's Cloud Interop identifier.
+- `preferred_username`, `username` or `email` is present and identifies the signed-in user.
 - `exp` is in the future, and your app refreshes the token before it expires.
 - Verifying the token with the shared secret succeeds. The example server's `POST /api/verify` can do this for you.
 

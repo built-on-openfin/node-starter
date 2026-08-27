@@ -17,7 +17,7 @@ flowchart TD
   app -->|jwtRequestCallback returns the raw JWT| ci[HERE Cloud Interop]
   ci -->|"looks up the key by kid"| jwks["jwks_uri on login.microsoftonline.com"]
   jwks -.->|public keys| ci
-  ci -->|"checks signature, iss and aud, looks up sub"| verdict[Accept or reject]
+  ci -->|"checks signature, iss and aud"| verdict[Accept or reject]
 ```
 
 Entra signs, your app relays, and Cloud Interop verifies. The values in the next section are what let Cloud Interop find the right key and confirm the claims.
@@ -36,7 +36,7 @@ Cloud Interop verifies every JWT your app supplies through `jwtRequestCallback`.
 
 <!-- -->
 
-> **_:information_source: `sub` is not a setup value, but it must be a user HERE knows:_** you don't register `sub` with HERE up front. Cloud Interop reads it out of each token at runtime and looks it up against its user table, rejecting the token if there is no match — so the `sub` your tokens carry has to be the identifier that was provisioned for that person in Cloud Interop. Confirm with HERE which identifier they hold if you are unsure.
+> **_:information_source: Your token must identify the user:_** include `preferred_username`, `username` or `email` in the token. Cloud Interop needs one of these to identify the signed-in user. Entra v2.0 ID tokens carry `preferred_username` by default when the `profile` scope is requested, so this usually needs no extra configuration. How claims map to users is set up per deployment, so discuss claims maps with your HERE representative.
 
 ## Getting the JWKS URI
 
@@ -102,7 +102,7 @@ Decode the same token and check all of the following, so the values you send HER
 
 - `iss` matches the issuer you're sending HERE, character for character.
 - `aud` matches the audience you're sending HERE.
-- `sub` is present and is the identifier Cloud Interop holds for that user.
+- `preferred_username`, `username` or `email` is present and identifies the signed-in user.
 - The token header shows `"alg": "RS256"` and a `kid`.
 - `exp` is in the future, and your app refreshes the token before it expires.
 
@@ -121,15 +121,13 @@ Decode the same token and check all of the following, so the values you send HER
 
 `@openfin/cloud-interop` takes an `authenticationId` from HERE and a synchronous callback that returns the raw token. How your app obtains that token is application code — typically MSAL.js in the container window.
 
-> **_:warning: This is an example, not a production auth design:_** [Getting an Entra ID token for HERE Cloud Interop](./getting-an-entra-token-for-cloud-interop.md) shows one way to acquire an ID token (silent-first, with an interactive login when `CloudAPAuthEnabled` is off). Validate it against your own app registration, Conditional Access, redirect URIs, and security review. HERE does not sign the token and does not certify that MSAL wiring for production.
+> **_:information_source: An example of doing this end to end:_** [Use Cloud Interop with Microsoft Entra ID](https://github.com/built-on-openfin/container-starter/tree/main/how-to/use-interop/cloud-interop-entra) in the container starter signs the user in before any HERE code runs, acquires the ID token silently where it can and falls back to a redirect where it cannot, refreshes it in the background, and logs the live `iss`, `aud` and `jwks_uri` so you can read off the values to send HERE. It is an example rather than a production auth design, so validate it against your own app registration, Conditional Access policies, redirect URIs, and security review.
+
+Whatever acquires the token, the callback itself is synchronous, so cache the token and hand back the cached value:
 
 ```ts
-import { createEntraJwtRequestCallback } from './entraJwtRequestCallback';
-
-const jwtRequestCallback = await createEntraJwtRequestCallback({
-  clientId: '<APPLICATION_CLIENT_ID>',
-  tenantId: '<DIRECTORY_TENANT_ID>'
-});
+// Acquire the token before this runs, cache it, and refresh it in the background.
+let cachedToken: string;
 
 const cloudConfig = {
   url: '<CLOUD_INTEROP_SERVICE_URL>',
@@ -138,12 +136,14 @@ const cloudConfig = {
   authenticationType: 'jwt',
   jwtAuthenticationParameters: {
     authenticationId: '<PROVIDED_BY_HERE>',
-    jwtRequestCallback
+    jwtRequestCallback: () => cachedToken
   }
 };
 ```
 
-> **_:warning: Return the raw JWT string:_** `jwtRequestCallback` must return the compact JWT itself (`header.payload.signature`), not the object your token library wraps it in. Returning anything else fails with `JWSInvalid: Invalid Compact JWS`. The callback is also genuinely synchronous, so acquire and refresh the token in the background and have the callback return the cached value.
+The linked example reads the same settings from `customSettings.cloudInteropProvider` in its manifest rather than building this object in code. Both arrive at the same place, so use whichever suits your platform.
+
+> **_:warning: Return the raw JWT string:_** `jwtRequestCallback` must return the compact JWT itself (`header.payload.signature`), not the object your token library wraps it in. Returning anything else fails with `JWSInvalid: Invalid Compact JWS`.
 
 ## Reference
 
@@ -151,6 +151,6 @@ const cloudConfig = {
 - [ID token claims reference](https://learn.microsoft.com/en-us/entra/identity-platform/id-token-claims-reference)
 - [Access token claims reference](https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference)
 - [Example JWKS endpoint](./README.md) — test the flow without an identity provider
-- [Getting an Entra ID token for HERE Cloud Interop](./getting-an-entra-token-for-cloud-interop.md) — example of acquiring the ID token in the app
+- [Use Cloud Interop with Microsoft Entra ID](https://github.com/built-on-openfin/container-starter/tree/main/how-to/use-interop/cloud-interop-entra) — an example platform that acquires the ID token with MSAL.js and passes it to Cloud Interop
 - [Using Keycloak with HERE Cloud Interop](./using-keycloak.md)
 - [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md) — the app-signed HS256 fallback
