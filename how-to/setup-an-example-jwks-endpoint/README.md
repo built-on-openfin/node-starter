@@ -1,6 +1,6 @@
-![Here Node Adapter Example -- How To Setup An Example JWKS Endpoint](../../assets/hero-starter-nodejs.png)
+![HERE Node Adapter Example -- How To Setup An Example JWKS Endpoint](../../assets/hero-starter-nodejs.png)
 
-> **_:information_source: Here Node Adapter:_** [Here Node Adapter](https://cdn.openfin.co/docs/javascript/32.114.76.14/) is a commercial product and this repo is for evaluation purposes. Use of the Here Node Adapter and Here Core components is only granted pursuant to a license from Here. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: HERE Node Adapter:_** [HERE Node Adapter](https://cdn.openfin.co/docs/javascript/32.114.76.14/) is a commercial product and this repo is for evaluation purposes. Use of the HERE Node Adapter and HERE Core components is only granted pursuant to a license from HERE. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node
 
@@ -26,6 +26,14 @@ The node app is built when `npm run build` is run.
 The node app is started when `npm run server` is run.
 
 > **_:warning: Ephemeral RSA keys:_** The RSA key pair is generated fresh, in memory, every time the server starts. This keeps the example simple, but it also means any RS256 token issued before a restart can no longer be verified against the JWKS afterwards (the `kid` will no longer match). The HS256 shared secret behaves differently — it _is_ persisted across restarts, as described in [Using a shared secret instead of JWKS](#using-a-shared-secret-instead-of-jwks-test-only).
+
+## Already using a real identity provider?
+
+This example is a stand-in for an identity provider so you can test without one. If you already have one issuing your tokens, these guides show where the values HERE needs (`iss`, `aud` and the JWKS URI) live in each product:
+
+- [Using Microsoft Entra ID with HERE Cloud Interop](./using-microsoft-entra-id.md) — Entra signs RS256 only, so JWKS is the only option. For acquiring the token in the app, [Use Cloud Interop with Microsoft Entra ID](https://github.com/built-on-openfin/container-starter/tree/main/how-to/use-interop/cloud-interop-entra) in the container starter is an example platform that signs the user in with MSAL.js and feeds the ID token to `jwtRequestCallback`.
+- [Using Keycloak with HERE Cloud Interop](./using-keycloak.md) — JWKS, plus what to do when a realm sits on an internal network.
+- [When HERE cannot reach your JWKS URI](./when-jwks-is-unreachable.md) — the fallback for any identity provider Cloud Interop can't reach: keep authenticating with your IdP, but have your app sign a short-lived HS256 token using a secret shared with HERE.
 
 ## Endpoints
 
@@ -206,7 +214,7 @@ const jwtRequestCallback = await createJwtRequestCallback({
 
 <!-- -->
 
-> **_:information_source: Registering this server's JWKS URL with a real relying party:_** `@openfin/cloud-interop`'s `jwtAuthenticationParameters` only accepts `authenticationId` and `jwtRequestCallback` — there's no client-side field for the JWKS URL or issuer. Matching a JWKS URL to an `authenticationId` is done out-of-band: contact Here support with the JWKS URL this server is (or will be) reachable at, e.g. `https://<subdomain>.ngrok-free.app/.well-known/jwks.json`, so they can register it against your `authenticationId`, and agree with them on the exact `iss`/`aud` values to use. Since ngrok's free tier assigns a new random subdomain on every restart, any such registration will go stale as soon as the tunnel restarts — use an ngrok reserved/static domain (or host this example somewhere with a stable URL) if you need the registration to keep working across restarts. Alternatively, configure the shared secret instead of a JWKS URL, which has nothing URL-shaped to go stale.
+> **_:information_source: Registering this server's JWKS URL with a real relying party:_** `@openfin/cloud-interop`'s `jwtAuthenticationParameters` only accepts `authenticationId` and `jwtRequestCallback` — there's no client-side field for the JWKS URL or issuer. Matching a JWKS URL to an `authenticationId` is done out-of-band: contact HERE support with the JWKS URL this server is (or will be) reachable at, e.g. `https://<subdomain>.ngrok-free.app/.well-known/jwks.json`, so they can register it against your `authenticationId`, and agree with them on the exact `iss`/`aud` values to use. Since ngrok's free tier assigns a new random subdomain on every restart, any such registration will go stale as soon as the tunnel restarts — use an ngrok reserved/static domain (or host this example somewhere with a stable URL) if you need the registration to keep working across restarts. Alternatively, configure the shared secret instead of a JWKS URL, which has nothing URL-shaped to go stale.
 
 ## Exposing the server with ngrok
 

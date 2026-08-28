@@ -1,6 +1,6 @@
-![Here Node Adapter Example -- Connect To Workspace Starter For Interop](../../assets/hero-starter-nodejs.png)
+![HERE Node Adapter Example -- Connect To Workspace Starter For Interop](../../assets/hero-starter-nodejs.png)
 
-> **_:information_source: Here Node Adapter:_** [Here Node Adapter](<(https://www.here.io/here-core)/>) is a commercial product and this repo is for evaluation purposes. Use of the Here Node Adapter, Here Container and Core Workspace components is only granted pursuant to a license from Here. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
+> **_:information_source: HERE Node Adapter:_** [HERE Node Adapter](<(https://www.here.io/here-core)/>) is a commercial product and this repo is for evaluation purposes. Use of the HERE Node Adapter, HERE Container and Core Workspace components is only granted pursuant to a license from HERE. Please [**contact us**](https://www.here.io/here-core/) if you would like to request a developer evaluation key or to discuss a production license.
 
 ## Learning more about Node, Interop and FDC3
 
@@ -84,7 +84,7 @@ In order to test firing intents from within the Workspace Platform Starter app t
   ],
   "contactEmail": "contact@example.com",
   "supportEmail": "support@example.com",
-  "publisher": "Here",
+  "publisher": "HERE",
   "intents": [
    {
     "name": "ViewContact",
