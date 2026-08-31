@@ -14,9 +14,9 @@
 	"author": "john.mandia@here.io",
 	"license": "SEE LICENSE IN LICENSE.MD",
 	"dependencies": {
-		"body-parser": "^1.20.3",
+		"body-parser": "^2.1.0",
 		"cors": "^2.8.5",
-		"express": "^4.21.0",
+		"express": "^5.1.0",
 		"ws": "^8.18.0"
 	},
 	"devDependencies": {
